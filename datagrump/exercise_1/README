@@ -1,0 +1,4 @@
+A fixed window size of 12 yields best score of 2.56
+The results are extremely replicable. The graph shows 3 independent trials with
+the fixed window size, and as can be seen, the resulting points are clustered
+very close together.

@@ -18,6 +18,7 @@ private:
   uint64_t consec_delays_;
   uint64_t consec_no_delays_;
   bool rtt_decreased_;
+  uint64_t delay_cooloff_;
 public:
   /* Public interface for the congestion controller */
   /* You can change these if you prefer, but will need to change

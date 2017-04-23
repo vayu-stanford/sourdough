@@ -10,7 +10,8 @@ using namespace std;
 /* Default constructor */
 ContestController::ContestController( const bool debug )
   :  Controller(debug), rtt_thresh(100), window_size_(5), 
- rtt_gain_(1), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max()), consec_delays_(0), consec_no_delays_(0), rtt_decreased_(false)
+ rtt_gain_(1), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max()), consec_delays_(0), consec_no_delays_(0), rtt_decreased_(false),
+  delay_cooloff_(0)
 {
 }
 
@@ -74,22 +75,33 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
 
   if((rtt_decreased_ && delay > (3*rtt_min_))){
     consec_delays_+=1;
-    consec_no_delays_ = 0;
-    uint64_t log_consec = log(consec_delays_);
-    if(log_consec > 100){
-      log_consec = 100;
+    if(consec_no_delays_ > 1){
+      window_size_ -= consec_no_delays_/8;
+      delay_cooloff_ = window_size_;
+    } else if (delay_cooloff_ > 0 && delay < 5*rtt_min_){
+      delay_cooloff_ -= 1;
+    } else {
+      delay_cooloff_ = 0;
+      uint64_t log_consec = log(consec_delays_);
+      if(log_consec > 100){
+        log_consec = 100;
+      }
+      //window_size_ -= 2.0*rtt_min_/delay*(log_consec)/100.0;
+      window_size_ *= ((100.0-log_consec))/100.0;
+      delay_cooloff_ = 0;
     }
-    window_size_ = ((100-log_consec)*window_size_)/100;
     if(window_size_ == 0){
       window_size_ = 1;
     }
+    consec_no_delays_=0;
   }  else {
     consec_delays_ = 0;
+    delay_cooloff_ = 0;
+  }
+  if (delay <= rtt_min_ * 20 / 18){
+    window_size_ += 1.0;
     consec_no_delays_ += 1;
-  }
-  if (delay <= rtt_min_ * 10 / 9 ){
-    window_size_ += 1;
-  }
+  } 
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received
 	 << " received ack for datagram " << sequence_number_acked

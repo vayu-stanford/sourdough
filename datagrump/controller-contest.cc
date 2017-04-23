@@ -11,7 +11,7 @@ using namespace std;
 ContestController::ContestController( const bool debug )
   :  Controller(debug), rtt_thresh(100), window_size_(5), 
  rtt_gain_(1), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max()), consec_delays_(0), consec_no_delays_(0), rtt_decreased_(false),
-  delay_cooloff_(0)
+  delay_cooloff_(0), window_incr_(0)
 {
 }
 
@@ -64,20 +64,14 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
     rtt_var_ = 0;
   } 
   else {
-    m -= (rtt_mean_ >> rtt_gain_);
-    rtt_mean_ += m;
-    if(m<0){
-      m = -m;
-    }
-    m -= (rtt_var_ >> rtt_gain_);
-    rtt_var_ += m;
+    rtt_mean_ = (rtt_mean_*8+delay*2)/10;
   }
 
-  if((rtt_decreased_ && delay > (3*rtt_min_))){
+  if((rtt_decreased_ && delay > (5*rtt_min_))){
     consec_delays_+=1;
     if(consec_no_delays_ > 1){
       if(window_size_ > consec_no_delays_/8){
-      window_size_ -= consec_no_delays_/8;
+        window_size_ -= consec_no_delays_/8;
       } else {
         window_size_ = 1;
       }
@@ -85,7 +79,6 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
     } else if (delay_cooloff_ > 0 && delay < 5*rtt_min_){
       delay_cooloff_ -= 1;
     } else {
-      delay_cooloff_ = 0;
       uint64_t log_consec = log(consec_delays_);
       if(log_consec > 100){
         log_consec = 100;
@@ -99,10 +92,11 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
     consec_delays_ = 0;
     delay_cooloff_ = 0;
   }
-  if (delay <= rtt_min_ * 20 / 18){
-    window_size_ += 1.0;
+
+  if (9* delay <= rtt_min_ * 10 ){
+    window_size_ += 1;
     consec_no_delays_ += 1;
-  } 
+  }  
 
   if(sequence_number_acked % 10 == 0 && window_size_ > 1){
     window_size_ -= 1;
@@ -125,5 +119,5 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int ContestController::timeout_ms( void )
 {
-  return (8*rtt_mean_)/10; /* timeout of one second */
+  return (10*rtt_mean_)/10; /* timeout of one second */
 }

@@ -76,7 +76,11 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
   if((rtt_decreased_ && delay > (3*rtt_min_))){
     consec_delays_+=1;
     if(consec_no_delays_ > 1){
+      if(window_size_ > consec_no_delays_/8){
       window_size_ -= consec_no_delays_/8;
+      } else {
+        window_size_ = 1;
+      }
       delay_cooloff_ = window_size_;
     } else if (delay_cooloff_ > 0 && delay < 5*rtt_min_){
       delay_cooloff_ -= 1;
@@ -90,9 +94,6 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
       window_size_ *= ((100.0-log_consec))/100.0;
       delay_cooloff_ = 0;
     }
-    if(window_size_ == 0){
-      window_size_ = 1;
-    }
     consec_no_delays_=0;
   }  else {
     consec_delays_ = 0;
@@ -102,6 +103,15 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
     window_size_ += 1.0;
     consec_no_delays_ += 1;
   } 
+
+  if(sequence_number_acked % 10 == 0 && window_size_ > 1){
+    window_size_ -= 1;
+  }
+
+    if(window_size_ == 0){
+      window_size_ = 1;
+    }
+
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received
 	 << " received ack for datagram " << sequence_number_acked

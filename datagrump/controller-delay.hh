@@ -1,29 +1,26 @@
-#ifndef CONTROLLER_AIMD_HH
-#define CONTROLLER_AIMD_HH
+#ifndef CONTROLLER_DELAY_HH
+#define CONTROLLER_DELAY_HH
 
 #include <cstdint>
 #include "controller.hh"
 
 /* Congestion controller interface */
 
-class AIMDController : public Controller
+class DelayController : public Controller
 {
 private:
-  uint64_t cwnd_;
-  uint64_t cwnd_incr_;
-  uint64_t ssthresh_;
+  uint64_t rtt_thresh;
+  uint64_t window_size_;
   uint64_t rtt_gain_;
   uint64_t rtt_mean_;
   uint64_t rtt_var_;
-  uint64_t timeout_ctr_;
-  uint64_t last_sent_;
-
+  uint64_t rtt_min_;
 public:
   /* Public interface for the congestion controller */
   /* You can change these if you prefer, but will need to change
      the call site as well (in sender.cc) */
 
-  AIMDController( const bool debug );
+  DelayController( const bool debug );
 
   /* Get current window size, in datagrams */
   unsigned int window_size( void ) override;

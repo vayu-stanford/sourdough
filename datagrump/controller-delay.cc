@@ -1,22 +1,23 @@
 #include <iostream>
 #include <limits>
 
-#include "controller-aimd.hh"
+#include "controller-delay.hh"
 #include "timestamp.hh"
 
 using namespace std;
 
 /* Default constructor */
-AIMDController::AIMDController( const bool debug )
-  :  Controller(debug), cwnd_(1), cwnd_incr_(0), ssthresh_(numeric_limits<int>::max()),  rtt_gain_(3), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), timeout_ctr_(0) , last_sent_(0)
+DelayController::DelayController( const bool debug )
+  :  Controller(debug), rtt_thresh(100), window_size_(5), 
+ rtt_gain_(2), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max())
 {
 }
 
 /* Get current window size, in datagrams */
-unsigned int AIMDController::window_size( void )
+unsigned int DelayController::window_size( void )
 {
   /* Default: fixed window size of 100 outstanding datagrams */
-  unsigned int the_window_size = cwnd_;
+  unsigned int the_window_size = window_size_;
 
   if ( debug_ ) {
     cerr << "At time " << timestamp_ms()
@@ -27,20 +28,11 @@ unsigned int AIMDController::window_size( void )
 }
 
 /* A datagram was sent */
-void AIMDController::datagram_was_sent( const uint64_t sequence_number,
+void DelayController::datagram_was_sent( const uint64_t sequence_number,
 				    /* of the sent datagram */
 				    const uint64_t send_timestamp )
                                     /* in milliseconds */
 {
-  /* Timeout occurred */
-  if(send_timestamp - last_sent_ > 2*rtt_mean_){
-    cwnd_ = cwnd_ / 2;
-    if(cwnd_ == 0){
-      cwnd_ = 1;
-    }
-    ssthresh_ = cwnd_;
-  } 
-  last_sent_ = send_timestamp;
 
   if ( debug_ ) {
     cerr << "At time " << send_timestamp
@@ -49,7 +41,7 @@ void AIMDController::datagram_was_sent( const uint64_t sequence_number,
 }
 
 /* An ack was received */
-void AIMDController::ack_received( const uint64_t sequence_number_acked,
+void DelayController::ack_received( const uint64_t sequence_number_acked,
 			       /* what sequence number was acknowledged */
 			       const uint64_t send_timestamp_acked,
 			       /* when the acknowledged datagram was sent (sender's clock) */
@@ -58,21 +50,14 @@ void AIMDController::ack_received( const uint64_t sequence_number_acked,
 			       const uint64_t timestamp_ack_received )
                                /* when the ack was received (by sender) */
 {
-  /* Update cwnd and ssthresh */
-  if(false && cwnd_ <= ssthresh_){
-    cwnd_ += 1;
-  } else {
-    cwnd_incr_ += 1;
-    if(cwnd_incr_ == cwnd_){
-      cwnd_ += 1;
-      cwnd_incr_ = 0;
-    }
+  uint64_t delay = timestamp_ack_received - send_timestamp_acked;
+  int64_t m = timestamp_ack_received - send_timestamp_acked;
+
+  if(rtt_min_ > delay){
+    rtt_min_ = delay;
   }
 
-  /* Update RTT estimates */
-  int64_t m = timestamp_ack_received - send_timestamp_acked;
   if(rtt_mean_ == numeric_limits<int>::max()){
-
     rtt_mean_ = m;
     rtt_var_ = 0;
   } 
@@ -86,9 +71,14 @@ void AIMDController::ack_received( const uint64_t sequence_number_acked,
     rtt_var_ += m;
   }
 
-
-
-
+  if(delay > (3*rtt_min_)){
+    window_size_ = (3*window_size_)/4;
+    if(window_size_ == 0){
+      window_size_ = 1;
+    }
+  } else if (delay <= rtt_thresh * 0.8){
+    window_size_ += 1;
+  }
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received
 	 << " received ack for datagram " << sequence_number_acked
@@ -100,7 +90,7 @@ void AIMDController::ack_received( const uint64_t sequence_number_acked,
 
 /* How long to wait (in milliseconds) if there are no acks
    before sending one more datagram */
-unsigned int AIMDController::timeout_ms( void )
+unsigned int DelayController::timeout_ms( void )
 {
-  return 2*rtt_mean_;
+  return rtt_mean_; /* timeout of one second */
 }

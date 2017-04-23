@@ -1,0 +1,8 @@
+set term png
+set xrange [4000 to 0]
+set output "exercise_1.png"
+set key outside
+set xlabel "delay (ms)"
+set ylabel "throughput (Mbits/s)"
+
+plot \

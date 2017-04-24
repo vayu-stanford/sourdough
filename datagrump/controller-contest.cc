@@ -98,8 +98,8 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
     consec_no_delays_ += 1;
   }  
 
-  if(sequence_number_acked % 10 == 0 && window_size_ > 1){
-    window_size_ -= 1;
+  if(sequence_number_acked % 10 == 0 && window_size_ > 1.2*delay/rtt_min_){
+    window_size_ -= delay/rtt_min_;
   }
 
     if(window_size_ == 0){
@@ -119,5 +119,5 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int ContestController::timeout_ms( void )
 {
-  return (10*rtt_mean_)/10; /* timeout of one second */
+  return rtt_mean_; /* timeout of one second */
 }

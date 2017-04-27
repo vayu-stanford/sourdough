@@ -8,14 +8,13 @@ using namespace std;
 
 /* Default constructor */
 AIMDController::AIMDController( const bool debug )
-  :  Controller(debug), cwnd_(1), cwnd_incr_(0), ssthresh_(numeric_limits<int>::max()),  rtt_gain_(3), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), timeout_ctr_(0) , last_sent_(0)
+  :  Controller(debug), cwnd_(1)
 {
 }
 
 /* Get current window size, in datagrams */
 unsigned int AIMDController::window_size( void )
 {
-  /* Default: fixed window size of 100 outstanding datagrams */
   unsigned int the_window_size = cwnd_;
 
   if ( debug_ ) {
@@ -32,16 +31,6 @@ void AIMDController::datagram_was_sent( const uint64_t sequence_number,
 				    const uint64_t send_timestamp )
                                     /* in milliseconds */
 {
-  /* Timeout occurred */
-  if(send_timestamp - last_sent_ > 2*rtt_mean_){
-    cwnd_ = cwnd_ / 2;
-    if(cwnd_ == 0){
-      cwnd_ = 1;
-    }
-    ssthresh_ = cwnd_;
-  } 
-  last_sent_ = send_timestamp;
-
   if ( debug_ ) {
     cerr << "At time " << send_timestamp
 	 << " sent datagram " << sequence_number << endl;
@@ -58,36 +47,19 @@ void AIMDController::ack_received( const uint64_t sequence_number_acked,
 			       const uint64_t timestamp_ack_received )
                                /* when the ack was received (by sender) */
 {
-  /* Update cwnd and ssthresh */
-  if(false && cwnd_ <= ssthresh_){
-    cwnd_ += 1;
-  } else {
-    cwnd_incr_ += 1;
-    if(cwnd_incr_ == cwnd_){
-      cwnd_ += 1;
-      cwnd_incr_ = 0;
+  /* Update cwnd */
+  if(timestamp_ack_received - send_timestamp_acked > timeout_ms()){
+    if ( debug_ ) {
+      cerr << "Timeout occurred for packet " << sequence_number_acked << endl;
     }
-  }
-
-  /* Update RTT estimates */
-  int64_t m = timestamp_ack_received - send_timestamp_acked;
-  if(rtt_mean_ == numeric_limits<int>::max()){
-
-    rtt_mean_ = m;
-    rtt_var_ = 0;
+    cwnd_ = cwnd_ / 2;
+    if(cwnd_ == 0){
+      cwnd_ = 1;
+    }
   } 
-  else {
-    m -= (rtt_mean_ >> rtt_gain_);
-    rtt_mean_ += m;
-    if(m<0){
-      m = -m;
-    }
-    m -= (rtt_var_ >> rtt_gain_);
-    rtt_var_ += m;
+  else{
+    cwnd_ += 1;
   }
-
-
-
 
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received
@@ -102,5 +74,5 @@ void AIMDController::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int AIMDController::timeout_ms( void )
 {
-  return 2*rtt_mean_;
+  return 1000;
 }

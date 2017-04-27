@@ -10,13 +10,6 @@ class AIMDController : public Controller
 {
 private:
   uint64_t cwnd_;
-  uint64_t cwnd_incr_;
-  uint64_t ssthresh_;
-  uint64_t rtt_gain_;
-  uint64_t rtt_mean_;
-  uint64_t rtt_var_;
-  uint64_t timeout_ctr_;
-  uint64_t last_sent_;
 
 public:
   /* Public interface for the congestion controller */

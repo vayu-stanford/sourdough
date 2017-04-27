@@ -9,15 +9,11 @@
 class ContestController : public Controller
 {
 private:
-  uint64_t rtt_thresh;
   uint64_t window_size_;
-  uint64_t rtt_gain_;
   uint64_t rtt_mean_;
-  uint64_t rtt_var_;
   uint64_t rtt_min_;
   uint64_t consec_delays_;
   uint64_t consec_no_delays_;
-  bool rtt_decreased_;
   uint64_t delay_cooloff_;
   uint64_t window_incr_;
 public:

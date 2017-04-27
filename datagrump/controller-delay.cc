@@ -8,10 +8,10 @@ using namespace std;
 
 /* Default constructor */
 DelayController::DelayController( const bool debug )
-  :  Controller(debug), window_size_(5), 
-  rtt_gain_(3), rtt_mean_(numeric_limits<int>::max()),
+  :  Controller(debug), window_size_(5), window_size_incr_(0), rtt_gain_(3),
+  rtt_mean_(numeric_limits<int>::max()),
   rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max()),
-  rto_(numeric_limits<int>::max()), upper_thresh_(3.0), lower_thresh_(1.5)
+  rto_(1000), upper_thresh_(3.0), lower_thresh_(1.5)
 {
 }
 
@@ -76,12 +76,17 @@ void DelayController::ack_received( const uint64_t sequence_number_acked,
   }
 
   if(delay > (upper_thresh_*rtt_min_)){
+    window_size_incr_ = 0;
     window_size_ = (2*window_size_)/3;
     if(window_size_ == 0){
       window_size_ = 1;
     }
   } else if (delay <= rtt_min_ * lower_thresh_){
-    window_size_ += 1;
+    window_size_incr_ += 1;
+    if(window_size_incr_ >= window_size_){
+      window_size_ += 1;
+      window_size_incr_ = 0;
+    }
   }
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received

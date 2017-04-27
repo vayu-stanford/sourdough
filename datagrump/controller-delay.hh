@@ -10,6 +10,7 @@ class DelayController : public Controller
 {
 private:
   uint64_t window_size_;
+  uint64_t window_size_incr_;
   uint64_t rtt_gain_;
   uint64_t rtt_mean_;
   uint64_t rtt_var_;

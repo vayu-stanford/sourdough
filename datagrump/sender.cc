@@ -5,7 +5,7 @@
 
 #include "socket.hh"
 #include "contest_message.hh"
-#include "controller-aimd.hh"
+#include "controller-contest.hh"
 #include "poller.hh"
 
 using namespace std;
@@ -16,7 +16,7 @@ class DatagrumpSender
 {
 private:
   UDPSocket socket_;
-  AIMDController controller_; /* your class */
+  ContestController controller_; /* your class */
 
   uint64_t sequence_number_; /* next outgoing sequence number */
 

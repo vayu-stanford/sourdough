@@ -1,0 +1,142 @@
+% GNUPLOT: LaTeX picture
+\setlength{\unitlength}{0.240900pt}
+\ifx\plotpoint\undefined\newsavebox{\plotpoint}\fi
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\begin{picture}(1500,900)(0,0)
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(171.0,131.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,131){\makebox(0,0)[r]{ 0}}
+\put(1219.0,131.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,197.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,197){\makebox(0,0)[r]{ 0.5}}
+\put(1219.0,197.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,263.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,263){\makebox(0,0)[r]{ 1}}
+\put(1219.0,263.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,330.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,330){\makebox(0,0)[r]{ 1.5}}
+\put(1219.0,330.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,396.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,396){\makebox(0,0)[r]{ 2}}
+\put(1219.0,396.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,462.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,462){\makebox(0,0)[r]{ 2.5}}
+\put(1219.0,462.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,528.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,528){\makebox(0,0)[r]{ 3}}
+\put(1219.0,528.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,594.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,594){\makebox(0,0)[r]{ 3.5}}
+\put(1219.0,594.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,660.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,660){\makebox(0,0)[r]{ 4}}
+\put(1219.0,660.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,727.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,727){\makebox(0,0)[r]{ 4.5}}
+\put(1219.0,727.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,793.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,793){\makebox(0,0)[r]{ 5}}
+\put(1219.0,793.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,859.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,859){\makebox(0,0)[r]{ 5.5}}
+\put(1219.0,859.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(1239.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1239,90){\makebox(0,0){ 0}}
+\put(1239.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1106.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1106,90){\makebox(0,0){ 500}}
+\put(1106.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(972.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(972,90){\makebox(0,0){ 1000}}
+\put(972.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(839.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(839,90){\makebox(0,0){ 1500}}
+\put(839.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(705.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(705,90){\makebox(0,0){ 2000}}
+\put(705.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(572.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(572,90){\makebox(0,0){ 2500}}
+\put(572.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(438.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(438,90){\makebox(0,0){ 3000}}
+\put(438.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(305.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(305,90){\makebox(0,0){ 3500}}
+\put(305.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(171.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(171,90){\makebox(0,0){ 4000}}
+\put(171.0,839.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(171.0,131.0){\rule[-0.200pt]{0.400pt}{175.375pt}}
+\put(171.0,131.0){\rule[-0.200pt]{257.281pt}{0.400pt}}
+\put(1239.0,131.0){\rule[-0.200pt]{0.400pt}{175.375pt}}
+\put(171.0,859.0){\rule[-0.200pt]{257.281pt}{0.400pt}}
+\put(30,495){\makebox(0,0){\rotatebox{90}{throughput (Mbits/s)}}}
+\put(705,29){\makebox(0,0){delay (ms)}}
+\put(1339,839){\makebox(0,0)[r]{1}}
+\put(1210,161){\makebox(0,0){$+$}}
+\put(1210,161){\makebox(0,0){$+$}}
+\put(1210,161){\makebox(0,0){$+$}}
+\put(1409,839){\makebox(0,0){$+$}}
+\put(1339,798){\makebox(0,0)[r]{10}}
+\put(1198,392){\makebox(0,0){$\times$}}
+\put(1198,390){\makebox(0,0){$\times$}}
+\put(1198,392){\makebox(0,0){$\times$}}
+\put(1409,798){\makebox(0,0){$\times$}}
+\sbox{\plotpoint}{\rule[-0.400pt]{0.800pt}{0.800pt}}%
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(1339,757){\makebox(0,0)[r]{12}}
+\sbox{\plotpoint}{\rule[-0.400pt]{0.800pt}{0.800pt}}%
+\put(1192,433){\makebox(0,0){$\ast$}}
+\put(1192,433){\makebox(0,0){$\ast$}}
+\put(1192,433){\makebox(0,0){$\ast$}}
+\put(1409,757){\makebox(0,0){$\ast$}}
+\sbox{\plotpoint}{\rule[-0.500pt]{1.000pt}{1.000pt}}%
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(1339,716){\makebox(0,0)[r]{25}}
+\sbox{\plotpoint}{\rule[-0.500pt]{1.000pt}{1.000pt}}%
+\put(1147,626){\raisebox{-.8pt}{\makebox(0,0){$\Box$}}}
+\put(1147,626){\raisebox{-.8pt}{\makebox(0,0){$\Box$}}}
+\put(1147,627){\raisebox{-.8pt}{\makebox(0,0){$\Box$}}}
+\put(1409,716){\raisebox{-.8pt}{\makebox(0,0){$\Box$}}}
+\sbox{\plotpoint}{\rule[-0.600pt]{1.200pt}{1.200pt}}%
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(1339,675){\makebox(0,0)[r]{50}}
+\sbox{\plotpoint}{\rule[-0.600pt]{1.200pt}{1.200pt}}%
+\put(1077,760){\makebox(0,0){$\blacksquare$}}
+\put(1077,762){\makebox(0,0){$\blacksquare$}}
+\put(1077,764){\makebox(0,0){$\blacksquare$}}
+\put(1409,675){\makebox(0,0){$\blacksquare$}}
+\sbox{\plotpoint}{\rule[-0.500pt]{1.000pt}{1.000pt}}%
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(1339,634){\makebox(0,0)[r]{75}}
+\sbox{\plotpoint}{\rule[-0.500pt]{1.000pt}{1.000pt}}%
+\put(1010,789){\makebox(0,0){$\circ$}}
+\put(1010,789){\makebox(0,0){$\circ$}}
+\put(1010,789){\makebox(0,0){$\circ$}}
+\put(1409,634){\makebox(0,0){$\circ$}}
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(1339,593){\makebox(0,0)[r]{100}}
+\put(958,795){\makebox(0,0){$\bullet$}}
+\put(958,795){\makebox(0,0){$\bullet$}}
+\put(958,795){\makebox(0,0){$\bullet$}}
+\put(1409,593){\makebox(0,0){$\bullet$}}
+\put(1339,552){\makebox(0,0)[r]{200}}
+\put(777,798){\makebox(0,0){$\triangle$}}
+\put(776,798){\makebox(0,0){$\triangle$}}
+\put(776,798){\makebox(0,0){$\triangle$}}
+\put(1409,552){\makebox(0,0){$\triangle$}}
+\sbox{\plotpoint}{\rule[-0.400pt]{0.800pt}{0.800pt}}%
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(1339,511){\makebox(0,0)[r]{500}}
+\sbox{\plotpoint}{\rule[-0.400pt]{0.800pt}{0.800pt}}%
+\put(211,798){\makebox(0,0){$\blacktriangle$}}
+\put(211,797){\makebox(0,0){$\blacktriangle$}}
+\put(211,798){\makebox(0,0){$\blacktriangle$}}
+\put(1409,511){\makebox(0,0){$\blacktriangle$}}
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(171.0,131.0){\rule[-0.200pt]{0.400pt}{175.375pt}}
+\put(171.0,131.0){\rule[-0.200pt]{257.281pt}{0.400pt}}
+\put(1239.0,131.0){\rule[-0.200pt]{0.400pt}{175.375pt}}
+\put(171.0,859.0){\rule[-0.200pt]{257.281pt}{0.400pt}}
+\end{picture}

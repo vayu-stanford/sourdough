@@ -1,9 +1,9 @@
-set term png
+set term latex
 set xrange [4000 to 0]
-set output "exercise_1.png"
+set output "exercise_1.latex"
 set key outside
 set xlabel "delay (ms)"
-set ylabel "throughput (Mbits/s)"
+set ylabel "\\rotatebox{90}{throughput (Mbits/s)}" 
 
 plot \
 "exercise_1.data" using 2:1 index 0 title '1' with points, \

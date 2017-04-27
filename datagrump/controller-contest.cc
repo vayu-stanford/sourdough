@@ -66,7 +66,7 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
     rtt_mean_ = (rtt_mean_*8+delay*2)/10;
   }
 
-  if(delay > (5*rtt_min_)){
+  if(delay > (4.5*rtt_min_)){
     consec_delays_+=1;
     if(consec_no_delays_ > 8){
       if(window_size_ > consec_no_delays_/8){

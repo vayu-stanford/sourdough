@@ -9,9 +9,9 @@ using namespace std;
 
 /* Default constructor */
 ContestController::ContestController( const bool debug )
-  :  Controller(debug), rtt_thresh(100), window_size_(5), 
- rtt_gain_(1), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max()), consec_delays_(0), consec_no_delays_(0), rtt_decreased_(false),
-  delay_cooloff_(0), window_incr_(0)
+  :  Controller(debug), window_size_(5), 
+ rtt_mean_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max()),
+  consec_delays_(0), consec_no_delays_(0), delay_cooloff_(0), window_incr_(0)
 {
 }
 
@@ -60,7 +60,6 @@ void ContestController::ack_received( const uint64_t sequence_number_acked,
 
   if(rtt_mean_ == numeric_limits<int>::max()){
     rtt_mean_ = m;
-    rtt_var_ = 0;
   } 
   else {
     rtt_mean_ = (rtt_mean_*8+delay*2)/10;

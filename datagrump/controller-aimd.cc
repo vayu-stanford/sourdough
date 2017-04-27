@@ -8,7 +8,7 @@ using namespace std;
 
 /* Default constructor */
 AIMDController::AIMDController( const bool debug )
-  :  Controller(debug), cwnd_(1)
+  :  Controller(debug), cwnd_(1), cwnd_incr_(0)
 {
 }
 
@@ -56,9 +56,14 @@ void AIMDController::ack_received( const uint64_t sequence_number_acked,
     if(cwnd_ == 0){
       cwnd_ = 1;
     }
+    cwnd_incr_ = 0;
   } 
   else{
-    cwnd_ += 1;
+    cwnd_incr_ += 1;
+    if(cwnd_incr_ >= cwnd_){
+      cwnd_ += 1;
+      cwnd_incr_ = 0;
+    }
   }
 
   if ( debug_ ) {

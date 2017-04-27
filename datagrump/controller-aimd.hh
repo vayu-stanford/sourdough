@@ -10,6 +10,7 @@ class AIMDController : public Controller
 {
 private:
   uint64_t cwnd_;
+  uint64_t cwnd_incr_;
 
 public:
   /* Public interface for the congestion controller */

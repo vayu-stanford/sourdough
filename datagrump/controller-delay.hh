@@ -9,12 +9,14 @@
 class DelayController : public Controller
 {
 private:
-  uint64_t rtt_thresh;
   uint64_t window_size_;
   uint64_t rtt_gain_;
   uint64_t rtt_mean_;
   uint64_t rtt_var_;
   uint64_t rtt_min_;
+  uint64_t rto_;
+  double upper_thresh_;
+  double lower_thresh_;
 public:
   /* Public interface for the congestion controller */
   /* You can change these if you prefer, but will need to change

@@ -8,8 +8,10 @@ using namespace std;
 
 /* Default constructor */
 DelayController::DelayController( const bool debug )
-  :  Controller(debug), rtt_thresh(100), window_size_(5), 
- rtt_gain_(2), rtt_mean_(numeric_limits<int>::max()), rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max())
+  :  Controller(debug), window_size_(5), 
+  rtt_gain_(3), rtt_mean_(numeric_limits<int>::max()),
+  rtt_var_(numeric_limits<int>::max()), rtt_min_(numeric_limits<int>::max()),
+  rto_(numeric_limits<int>::max()), upper_thresh_(3.0), lower_thresh_(1.5)
 {
 }
 
@@ -57,6 +59,7 @@ void DelayController::ack_received( const uint64_t sequence_number_acked,
     rtt_min_ = delay;
   }
 
+  //Update RTT estimates
   if(rtt_mean_ == numeric_limits<int>::max()){
     rtt_mean_ = m;
     rtt_var_ = 0;
@@ -67,16 +70,17 @@ void DelayController::ack_received( const uint64_t sequence_number_acked,
     if(m<0){
       m = -m;
     }
-    m -= (rtt_var_ >> rtt_gain_);
+    m -= (rtt_var_ >> 2);
     rtt_var_ += m;
+    rto_ = (rtt_mean_ >> rtt_gain_) + rtt_var_;
   }
 
-  if(delay > (3*rtt_min_)){
-    window_size_ = (3*window_size_)/4;
+  if(delay > (upper_thresh_*rtt_min_)){
+    window_size_ = (2*window_size_)/3;
     if(window_size_ == 0){
       window_size_ = 1;
     }
-  } else if (delay <= rtt_thresh * 0.8){
+  } else if (delay <= rtt_min_ * lower_thresh_){
     window_size_ += 1;
   }
   if ( debug_ ) {
@@ -92,5 +96,5 @@ void DelayController::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int DelayController::timeout_ms( void )
 {
-  return rtt_mean_; /* timeout of one second */
+  return rto_; 
 }

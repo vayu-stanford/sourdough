@@ -77,14 +77,15 @@ void DelayController::ack_received( const uint64_t sequence_number_acked,
 
   if(delay > (upper_thresh_*rtt_min_)){
     window_size_incr_ = 0;
-    window_size_ = (2*window_size_)/3;
+    window_size_ = (99*window_size_)/100;
     if(window_size_ == 0){
       window_size_ = 1;
     }
   } else if (delay <= rtt_min_ * lower_thresh_){
-    window_size_incr_ += 1;
+    //window_size_incr_ += 1;
+    window_size_ += 1;
     if(window_size_incr_ >= window_size_){
-      window_size_ += 1;
+      //window_size_ += 1;
       window_size_incr_ = 0;
     }
   }
